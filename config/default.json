@@ -1,0 +1,13 @@
+{
+  "host": "localhost",
+  "port": 8080,
+  "dbConfig": {
+    "type": "postgres",
+    "host": "localhost",
+    "name": "firstDataBase",
+    "user": "postgres",
+    "port": 5432
+  }
+}
+
+
