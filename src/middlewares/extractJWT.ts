@@ -1,8 +1,8 @@
 import {Request, Response, NextFunction} from "express"
 import jwt from "jsonwebtoken";
 
-
 //TODO Define the return type 
+//TODO create environment variables
 
 const extractJWT = (req: Request, res:Response, next:NextFunction):any  => {
   

@@ -3,6 +3,11 @@ import {Request, Response} from "express"
 import signJwt from "../utils/signJWT";
 import { Client }  from "../entities/user.entity";
 
+// validating token
+export const validate = async (req:Request, res: Response)  => {
+  res.status(200).json({ message: "token(s) validates"})
+}
+
 // Login
 export const loginUser = async (req:Request, res: Response): Promise<any> => {
   try {
