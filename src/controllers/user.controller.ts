@@ -1,23 +1,53 @@
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs"
 import {Request, Response} from "express"
+import signJwt from "../utils/signJWT";
 import { Client }  from "../entities/user.entity";
 
-export const getUser = async (req:Request, res: Response) => {
-  const data = await Client.find() 
-  res.status(200).json({ data })
+// Login
+export const loginUser = async (req:Request, res: Response): Promise<any> => {
+  try {
+
+    const { email, password } = req.body.user;
+
+    // check you can find the accoutn with same email
+    const data:Array<any> = await Client.find({ email });
+    if (!data)  return res.status(404).json({ error: "user not found" })
+
+    // check if password matches or not
+    bcryptjs.compare(password ,data[0].password, (err, result): any => {
+      if (err) {
+        return res.status(401).json({ errorMsg: "password mismatched", error: err }) 
+      } else if (result) {
+        signJwt(data[0], (_err, token):any => {
+          if (_err) {
+            return res.status(500).json({ errorMsg : _err.message, error: _err })
+          } else if (token) {
+            return res.status(200).json({
+              Message: "auth successfull",
+              user: data[0],
+              token,
+            })
+          }
+        })
+      }
+    });
+
+  } catch (e) {
+    return res.status(400).json({ errorMsg: e.message, error: e }) 
+  }
 }
 
-export const createUser = async (req: Request, res:Response) => {
-  console.log(req.body);
+// Register user 
+export const registerUser = async (req: Request, res:Response) => {
+  const {
+    username,
+    password,
+    email
+  }  = req.body.user;
+
   try {
-    const {
-      username,
-      password,
-      email
-    }  = req.body;
 
-    const hash = await bcrypt.hash(password, 10);
-
+    const hash = await bcryptjs.hash(password, 10);
     const newUser = Client.create({
       username,
       password: hash,
@@ -25,11 +55,11 @@ export const createUser = async (req: Request, res:Response) => {
     })
 
     await newUser.save();
-    res.status(201).json({ data: hash })
+    return res.status(201).json({ success: 'true', data: newUser })
   } catch (e) {
     console.log("This is error", e)
     
     //TODO define a status code 
-    res.json({ success: 'false', error: e })
+    return res.json({ success: 'false', error: e })
   }
 }

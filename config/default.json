@@ -7,6 +7,10 @@
     "name": "firstDataBase",
     "user": "postgres",
     "port": 5432
+  },
+  "jwt": {
+    "secret":  "superduperencryptedshit",
+    "expiration":  3600
   }
 }
 
