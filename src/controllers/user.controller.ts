@@ -1,5 +1,5 @@
 import bcryptjs from "bcryptjs"
-import {Request, Response} from "express"
+import { Request, Response } from "express"
 import signJwt from "../utils/signJWT";
 import { Client }  from "../entities/user.entity";
 
@@ -15,7 +15,9 @@ export const loginUser = async (req:Request, res: Response): Promise<any> => {
     const { email, password } = req.body.user;
 
     // check you can find the accoutn with same email
-    const data:Array<any> = await Client.find({ email });
+
+    const data:Array<any> = await Client.find({ email })
+
     if (!data)  return res.status(404).json({ error: "user not found" })
 
     // check if password matches or not

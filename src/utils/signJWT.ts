@@ -1,10 +1,16 @@
 import config from "config";
 import jwt from "jsonwebtoken";
 
-const signJwt = (user: any, callback: (err: Error | null, token: string | null) => void) => {
-  var currentTime = new Date().getTime();
-  var expirationTime = currentTime + config.get<number>("jwt.expiration") * 100000
-  var expireTimeInSeconds = Math.floor(expirationTime / 1000);
+// NOT SURE
+type user =  {
+  username: string,
+  email: string,
+};
+
+const signJwt = (user: user, callback: (err: Error | null, token: string | null) => void) => {
+  const currentTime = new Date().getTime();
+  const expirationTime = currentTime + config.get<number>("jwt.expiration") * 100000
+  const expireTimeInSeconds = Math.floor(expirationTime / 1000);
 
   try {
     jwt.sign({
