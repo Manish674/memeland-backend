@@ -36,7 +36,7 @@ const register = async (req, res) => {
     email: email,
   });
 
-  if (foundUser.email === email) {
+  if (foundUser?.email === email) {
     return res
       .status(400)
       .json({ success: false, error: { message: "User already exists" } });
