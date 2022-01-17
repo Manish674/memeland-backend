@@ -4,7 +4,7 @@ dotenv.config()
 const server = require("./app");
 const connect = require('./utils/dbConnect');
 
-connect();
+connect()
 
 server.listen(4000, () => {
   console.log('running')

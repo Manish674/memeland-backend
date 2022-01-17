@@ -4,6 +4,7 @@ const { login, register } = require("../controllers/authHanlder");
 const router = Router();
 
 // /api/v1/auth
-router.route("/authenticate").get(login).post(register);
+router.route("/login").post(login);
+router.route("/register").post(register);
 
 module.exports = router;
