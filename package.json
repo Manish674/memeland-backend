@@ -18,8 +18,13 @@
   },
   "homepage": "https://github.com/Manish674/memeland-backend#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "brcypt": "^1.0.1",
     "cors": "^2.8.5",
-    "express": "^4.17.2"
+    "dotenv": "^12.0.3",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.6",
+    "prettier": "^2.5.1"
   },
   "devDependencies": {
     "eslint": "^8.6.0",
