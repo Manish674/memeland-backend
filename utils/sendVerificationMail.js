@@ -17,7 +17,7 @@ const sendEmail = (email, id) => {
   };
 
   transport.sendMail(mailOptions, function (err, res) {
-    if (!err) return console.log("email sent", res);
+    if (!err) return console.log("email sent successfully");
     console.log(err);
   });
 };
