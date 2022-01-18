@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../Entities/User");
+const sendVerificationMail = require("../utils/sendVerificationMail");
 
 const login = async (req, res) => {
   try {
@@ -42,12 +43,15 @@ const register = async (req, res) => {
       .json({ success: false, error: { message: "User already exists" } });
   }
 
-  await User.create({
+  const createdUser = await User.create({
     username,
     password,
     email,
     dateOfBirth,
   });
+
+  // console.log(createdUser._id);
+  sendVerificationMail(createdUser.email, createdUser._id);
 
   // TODO  when user is registered send back jwt token
   const token = jwt.sign({ username, email }, process.env.JWT_SECRET, {
@@ -57,4 +61,18 @@ const register = async (req, res) => {
   res.status(200).json({ success: true, token });
 };
 
-module.exports = { login, register };
+const verification = async (req, res) => {
+  const { id } = req.params;
+
+  let foundUser = await User.findById(id);
+  if (!foundUser) {
+    res.status(400).json({ success: false, error: "Verification failed" });
+  }
+
+  foundUser.isVerified = true;
+  await foundUser.save();
+
+  res.status(200).json({ success: true });
+};
+
+module.exports = { login, register, verification };

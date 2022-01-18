@@ -15,7 +15,6 @@ const checkAuth = async (req, res, next) => {
     const result = await jwt.verify(token, process.env.JWT_SECRET);
     next();
   } catch (e) {
-    console.log(e.message);
     res.status(500).json({ success: false, error: e });
   }
 };
