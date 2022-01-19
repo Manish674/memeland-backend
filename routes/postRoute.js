@@ -11,7 +11,7 @@ const {
 const router = Router();
 
 // /api/v1/posts
-router.route("/").get(getAllPost).post(checkAuth, createPost);
+router.route("/").get(getAllPost).post(createPost);
 router.route("/:id").get(getOnePost).put(updatePost).delete(deletePost);
 
 module.exports = router;
