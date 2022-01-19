@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
 const sendEmail = (email, id) => {
@@ -9,17 +10,26 @@ const sendEmail = (email, id) => {
     },
   });
 
-  const mailOptions = {
-    from: "manish",
-    to: email,
-    subject: "Email Verification",
-    html: `Press <a href="http://localhost:4000/api/v1/auth/verification/${id}">here</a>`,
-  };
+  jwt.sign(
+    { user_id: id },
+    process.env.EMAIL_SECRET,
+    { expiresIn: "1d" },
+    function (err, emailToken) {
+      if (err)
+        throw new Error("something went wrong with assinging jwt to email");
+      const mailOptions = {
+        from: "manish",
+        to: email,
+        subject: "Email Verification",
+        html: `Press <a href="http://localhost:4000/api/v1/auth/verification/${emailToken}">here</a>`,
+      };
 
-  transport.sendMail(mailOptions, function (err, res) {
-    if (!err) return console.log("email sent successfully");
-    console.log(err);
-  });
+      transport.sendMail(mailOptions, function (err, res) {
+        if (!err) return console.log("email sent successfully");
+        console.log(err);
+      });
+    }
+  );
 };
 
 module.exports = sendEmail;

@@ -51,9 +51,9 @@ const register = async (req, res) => {
   });
 
   // console.log(createdUser._id);
+  // TODO uncomment this thing
   sendVerificationMail(createdUser.email, createdUser._id);
 
-  // TODO  when user is registered send back jwt token
   const token = jwt.sign({ username, email }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRY_DATE,
   });
@@ -62,17 +62,23 @@ const register = async (req, res) => {
 };
 
 const verification = async (req, res) => {
-  const { id } = req.params;
+  const { token } = req.params;
 
-  let foundUser = await User.findById(id);
-  if (!foundUser) {
-    res.status(400).json({ success: false, error: "Verification failed" });
+  try {
+    const result = jwt.verify(token, process.env.EMAIL_SECRET);
+
+    let foundUser = await User.findById(result.user_id);
+    if (!foundUser) {
+      res.status(400).json({ success: false, error: "Verification failed" });
+    }
+
+    foundUser.isVerified = true;
+    await foundUser.save();
+
+    res.status(200).json({ success: true });
+  } catch (e) {
+    res.status(204).json({ success: false, error: "verificaton failed" });
   }
-
-  foundUser.isVerified = true;
-  await foundUser.save();
-
-  res.status(200).json({ success: true });
 };
 
 const validate = async (req, res) => {
