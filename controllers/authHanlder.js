@@ -75,4 +75,14 @@ const verification = async (req, res) => {
   res.status(200).json({ success: true });
 };
 
-module.exports = { login, register, verification };
+const validate = async (req, res) => {
+  if (!res.locals.user) {
+    return res
+      .status(400)
+      .json({ success: false, error: "authentication failed" });
+  }
+
+  res.status(200).json({ success: true });
+};
+
+module.exports = { login, register, verification, validate };

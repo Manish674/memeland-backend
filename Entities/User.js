@@ -11,6 +11,7 @@ const userSchema = new Schema({
   isVerified: { type: Boolean, default: false },
   posts: [String],
   dateOfBirth: Date,
+  pfp: String,
 });
 
 userSchema.pre("save", async function (next) {
