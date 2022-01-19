@@ -36,7 +36,7 @@ const login = async (req, res) => {
         email: foundUser.email,
       },
       process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIREY_DATE }
+      { expiresIn: "1d" }
     );
 
     res.status(200).json({
@@ -44,7 +44,7 @@ const login = async (req, res) => {
       data: { isVerified: foundUser.isVerified, token },
     });
   } catch (e) {
-    res.status(205).json({ success: false, data: "user not found" });
+    res.status(500).json({ success: false, error: { e, message: e.message } });
   }
 };
 
@@ -72,6 +72,7 @@ const register = async (req, res) => {
   res.status(200).json({ success: true, message: "User created successfully" });
 };
 
+// Email verification
 const verification = async (req, res) => {
   const { token } = req.params;
 
@@ -92,6 +93,7 @@ const verification = async (req, res) => {
   }
 };
 
+// Sending back user
 const validate = async (req, res) => {
   if (!res.locals.user) {
     return res
@@ -99,7 +101,7 @@ const validate = async (req, res) => {
       .json({ success: false, error: "authentication failed" });
   }
 
-  res.status(200).json({ success: true });
+  res.status(200).json({ success: true, user: res.locals.user });
 };
 
 module.exports = { login, register, verification, validate };
