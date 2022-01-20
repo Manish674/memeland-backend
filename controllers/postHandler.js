@@ -13,6 +13,12 @@ const createPost = async (req, res) => {
   // verify if user is logged In or not
   // getting it from checkAuth middleware
   console.log(req.body);
+  try {
+    res.status(200).json({ success: true, message: "image uploaded" });
+  } catch (e) {
+    res.status(400).json({ sucess: false, message: e.message });
+    console.log(e);
+  }
   // const { user } = res.locals;
 
   // const { title, mediaUrl, desc, like, dislike } = req.body;
@@ -36,7 +42,6 @@ const createPost = async (req, res) => {
   // );
 
   // res.status(200).json({ success: true, data: { post: { createdPost } } });
-  res.status(200).json({ success: true });
 };
 
 const updatePost = async (req, res) => {
