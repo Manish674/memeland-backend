@@ -12,7 +12,8 @@ const getOnePost = async (req, res) => {
 const createPost = async (req, res) => {
   // verify if user is logged In or not
   // getting it from checkAuth middleware
-  console.log(req.body);
+  // console.log(req.body);
+
   try {
     res.status(200).json({ success: true, message: "image uploaded" });
   } catch (e) {
