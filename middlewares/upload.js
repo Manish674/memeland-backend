@@ -16,7 +16,6 @@ const upload = multer({
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/i)) {
       return cb(new Error("Please upload an image of type jpg jpeg png only"));
     }
-    console.log("filter shit ran too");
     cb(undefined, true);
   },
 });

@@ -12,22 +12,22 @@ const login = async (req, res) => {
 
     if (!foundUser) {
       return res
-        .status(400)
-        .json({ success: false, error: { message: "User not found" } });
+        .status(200)
+        .json({ success: false, message: "User not found" });
     }
 
     if (!foundUser.isVerified) {
       return res
-        .status(400)
-        .json({ success: false, error: { message: "Email is not verified" } });
+        .status(200)
+        .json({ success: false, message: "Email is not verified" });
     }
 
     const result = await bcrypt.compare(password, foundUser.password);
 
     if (result !== true) {
       return res
-        .status(400)
-        .json({ success: false, error: { message: "invalid credentials" } });
+        .status(200)
+        .json({ success: false, message: "invalid credentials" });
     }
 
     const token = jwt.sign(
@@ -41,7 +41,8 @@ const login = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: { isVerified: foundUser.isVerified, token },
+      isVerified: foundUser.isVerified,
+      token,
     });
   } catch (e) {
     res.status(500).json({ success: false, error: { e, message: e.message } });
@@ -56,8 +57,8 @@ const register = async (req, res) => {
 
   if (foundUser?.email === email) {
     return res
-      .status(400)
-      .json({ success: false, error: { message: "User already exists" } });
+      .status(200)
+      .json({ success: false, message: "User already exists" });
   }
 
   const createdUser = await User.create({
@@ -81,7 +82,7 @@ const verification = async (req, res) => {
 
     let foundUser = await User.findById(result.user_id);
     if (!foundUser) {
-      res.status(400).json({ success: false, error: "Verification failed" });
+      res.status(200).json({ success: false, error: "Verification failed" });
     }
 
     foundUser.isVerified = true;
@@ -89,7 +90,7 @@ const verification = async (req, res) => {
 
     res.status(200).json({ success: true });
   } catch (e) {
-    res.status(204).json({ success: false, error: "verificaton failed" });
+    res.status(401).json({ success: false, error: "verificaton failed" });
   }
 };
 
@@ -97,7 +98,7 @@ const verification = async (req, res) => {
 const validate = async (req, res) => {
   if (!res.locals.user) {
     return res
-      .status(400)
+      .status(200)
       .json({ success: false, error: "authentication failed" });
   }
 
