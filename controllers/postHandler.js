@@ -1,5 +1,6 @@
 const Post = require("../Entities/Post");
 const User = require("../Entities/User");
+const cloudinary = require("../utils/cloudinaryConfig");
 
 const getAllPost = async (req, res) => {
   res.status(200).json({ success: true, data: "all posts" });
@@ -12,10 +13,11 @@ const getOnePost = async (req, res) => {
 const createPost = async (req, res) => {
   // verify if user is logged In or not
   // getting it from checkAuth middleware
-  // console.log(req.body);
 
   try {
-    res.status(200).json({ success: true, message: "image uploaded" });
+    console.log(req.file.path);
+    const result = await cloudinary.uploader.upload(req.file.path);
+    res.status(200).json({ success: true, message: result });
   } catch (e) {
     res.status(400).json({ sucess: false, message: e.message });
     console.log(e);
