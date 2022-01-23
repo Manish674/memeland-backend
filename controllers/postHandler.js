@@ -14,37 +14,33 @@ const createPost = async (req, res) => {
   // verify if user is logged In or not
   // getting it from checkAuth middleware
 
+  // console.log(req.file.path);
   try {
-    console.log(req.file.path);
-    const result = await cloudinary.uploader.upload(req.file.path);
-    res.status(200).json({ success: true, message: result });
+    const { user } = res.locals;
+    const { title } = req.body;
+    const filePath = `${req.file.path}`;
+    const result = await cloudinary.uploader.upload(filePath);
+    const mediaUrl = result.secure_url;
+
+    const createdPost = await Post.create({
+      title,
+      mediaUrl,
+    });
+
+    await User.findOneAndUpdate(
+      { username: user.username },
+      {
+        $push: {
+          posts: createdPost._id,
+        },
+      }
+    );
+
+    // console.log("Cloudinary result", result);
+    res.status(200).json({ success: true, message: "Post created" });
   } catch (e) {
     res.status(400).json({ sucess: false, message: e.message });
-    console.log(e);
   }
-  // const { user } = res.locals;
-
-  // const { title, mediaUrl, desc, like, dislike } = req.body;
-
-  // const createdPost = await Post.create({
-  //   title,
-  //   mediaUrl,
-  //   desc,
-  //   like,
-  //   dislike,
-  // });
-
-  // // adding id to author model
-  // await User.findOneAndUpdate(
-  //   { username: user.username },
-  //   {
-  //     $push: {
-  //       posts: createdPost._id,
-  //     },
-  //   }
-  // );
-
-  // res.status(200).json({ success: true, data: { post: { createdPost } } });
 };
 
 const updatePost = async (req, res) => {

@@ -17,7 +17,7 @@ const checkAuth = async (req, res, next) => {
     res.locals.user = result;
     next();
   } catch (e) {
-    res.status(500).json({ success: false, error: e });
+    res.status(400).json({ success: false, error: e });
   }
 };
 
