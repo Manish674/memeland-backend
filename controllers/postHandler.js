@@ -13,7 +13,7 @@ const getAllPost = async (req, res) => {
 };
 
 const getOnePost = async (req, res) => {
-  res.status(200).json({ success: true, data: "single post" });
+  res.status(200).json({ success: true, post: "single post" });
 };
 
 const createPost = async (req, res) => {
@@ -50,11 +50,11 @@ const createPost = async (req, res) => {
 };
 
 const updatePost = async (req, res) => {
-  res.status(200).json({ success: true, data: "update" });
+  res.status(200).json({ success: true, updatedPost: "update" });
 };
 
 const deletePost = async (req, res) => {
-  res.status(200).json({ success: true, data: "delete" });
+  res.status(200).json({ success: true, deletedPost: "delete" });
 };
 
 module.exports = { getAllPost, getOnePost, updatePost, deletePost, createPost };
