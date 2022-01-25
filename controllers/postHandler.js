@@ -3,7 +3,13 @@ const User = require("../Entities/User");
 const cloudinary = require("../utils/cloudinaryConfig");
 
 const getAllPost = async (req, res) => {
-  res.status(200).json({ success: true, data: "all posts" });
+  try {
+    const posts = await Post.find();
+    console.log(posts);
+    res.status(200).json({ success: true, posts });
+  } catch (e) {
+    res.status(500).json({ success: false, error: "Something went wrong" });
+  }
 };
 
 const getOnePost = async (req, res) => {

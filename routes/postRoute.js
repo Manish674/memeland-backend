@@ -13,7 +13,10 @@ const {
 const router = Router();
 // /api/v1/posts
 // uploadImage,
-router.route("/").get(getAllPost).post([checkAuth, uploadImage], createPost);
+router
+  .route("/")
+  .get(checkAuth, getAllPost)
+  .post([checkAuth, uploadImage], createPost);
 router.route("/:id").get(getOnePost).put(updatePost).delete(deletePost);
 
 module.exports = router;
