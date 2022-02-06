@@ -6,7 +6,7 @@ const checkAuth = async (req, res, next) => {
     token = token.split(" ")[1];
 
     if (!token) {
-      return res.status(400).json({
+      return res.status(200).json({
         error: {
           message: "token not found",
         },
@@ -17,7 +17,7 @@ const checkAuth = async (req, res, next) => {
     res.locals.user = result;
     next();
   } catch (e) {
-    res.status(400).json({ success: false, error: e });
+    res.status(200).json({ success: false, error: e });
   }
 };
 

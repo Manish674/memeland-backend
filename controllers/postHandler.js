@@ -4,10 +4,20 @@ const cloudinary = require("../utils/cloudinaryConfig");
 
 const getAllPost = async (req, res) => {
   try {
-    const posts = await Post.find();
-    console.log(posts);
+    // const posts = await Post.find();
+    const posts = await Post.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "username",
+          foreignField: "user_id",
+          as: "posts",
+        },
+      },
+    ]);
     res.status(200).json({ success: true, posts });
   } catch (e) {
+    console.log(e);
     res.status(500).json({ success: false, error: "Something went wrong" });
   }
 };
@@ -31,6 +41,8 @@ const createPost = async (req, res) => {
     const createdPost = await Post.create({
       title,
       mediaUrl,
+      // without validating the username
+      user_id: user.username,
     });
 
     await User.findOneAndUpdate(
