@@ -5,16 +5,18 @@ const cloudinary = require("../utils/cloudinaryConfig");
 const getAllPost = async (req, res) => {
   try {
     // const posts = await Post.find();
-    const posts = await Post.aggregate([
-      {
-        $lookup: {
-          from: "users",
-          localField: "username",
-          foreignField: "user_id",
-          as: "posts",
-        },
-      },
-    ]);
+    const posts = await Post.find().populate('postedBy');
+    console.log("GetallPost route", posts)
+    // const posts = await Post.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: "users",
+    //       localField: "username",
+    //       foreignField: "user_id",
+    //       as: "posts",
+    //     },
+    //   },
+    // ]);
     res.status(200).json({ success: true, posts });
   } catch (e) {
     console.log(e);
@@ -38,21 +40,20 @@ const createPost = async (req, res) => {
     const result = await cloudinary.uploader.upload(filePath);
     const mediaUrl = result.secure_url;
 
+
+    const postAuthor = await User.findOne(
+      { username: user.username },
+    );
+
+    if (!postAuthor) return res.status(200).json({ success: false, error: "Check user"})
+
     const createdPost = await Post.create({
       title,
       mediaUrl,
       // without validating the username
-      user_id: user.username,
+      postedBy: postAuthor._id,
     });
 
-    await User.findOneAndUpdate(
-      { username: user.username },
-      {
-        $push: {
-          posts: createdPost._id,
-        },
-      }
-    );
 
     // console.log("Cloudinary result", result);
     res.status(200).json({ success: true, message: "Post created" });
