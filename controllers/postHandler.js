@@ -5,8 +5,7 @@ const cloudinary = require("../utils/cloudinaryConfig");
 const getAllPost = async (req, res) => {
   try {
     // const posts = await Post.find();
-    const posts = await Post.find().populate('postedBy');
-    console.log("GetallPost route", posts)
+    const posts = await Post.find().populate("postedBy");
     // const posts = await Post.aggregate([
     //   {
     //     $lookup: {
@@ -40,24 +39,32 @@ const createPost = async (req, res) => {
     const result = await cloudinary.uploader.upload(filePath);
     const mediaUrl = result.secure_url;
 
+    const postAuthor = await User.findOne({
+      username: user.username,
+    });
 
-    const postAuthor = await User.findOne(
-      { username: user.username },
-    );
-
-    if (!postAuthor) return res.status(200).json({ success: false, error: "Check user"})
+    if (!postAuthor)
+      return res.status(200).json({ success: false, error: "Check user" });
 
     const createdPost = await Post.create({
       title,
       mediaUrl,
-      // without validating the username
+      // TODO
       postedBy: postAuthor._id,
     });
 
+    await User.findOneAndUpdate(
+      { username: user.username },
+      {
+        $push: {
+          posts: [createdPost._id],
+        },
+      }
+    );
 
-    // console.log("Cloudinary result", result);
     res.status(200).json({ success: true, message: "Post created" });
   } catch (e) {
+    console.log(e)
     res.status(400).json({ sucess: false, message: e.message });
   }
 };

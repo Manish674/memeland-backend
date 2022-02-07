@@ -1,12 +1,15 @@
 const User = require("../Entities/User");
-// const Post = require('../Entities/Post')
+const Post = require("../Entities/Post");
 
 const profile = async (req, res) => {
   try {
     const { user } = res.locals;
+
     const result = await User.find({
       email: user.email,
-    }).select("-password").select('-_id')
+    })
+      .select("-password")
+      .populate("posts");
 
     res.status(200).json({ success: true, result });
   } catch (e) {

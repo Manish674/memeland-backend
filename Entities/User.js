@@ -9,7 +9,13 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, minlength: 8 },
   //TODO CHANGE it to false
-  isVerified: { type: Boolean, default: true },
+  isVerified: { type: Boolean, default: false },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
   dateOfBirth: Date,
   bio: { type: String },
   pfp: String,
