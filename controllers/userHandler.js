@@ -1,5 +1,4 @@
 const User = require("../Entities/User");
-const Post = require("../Entities/Post");
 
 const profile = async (req, res) => {
   try {
@@ -18,9 +17,20 @@ const profile = async (req, res) => {
 };
 
 const profileById = async (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, message: "its the one for whom you searched for" });
+  try {
+    const { id } = req.params;
+
+    const foundUser = await User.findById(id)
+      .select("-password")
+      .populate("posts");
+
+    if (!foundUser)
+      return res.status(200).json({ success: false, error: "user not found" });
+
+    res.status(200).json({ success: true, result: foundUser });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e.message });
+  }
 };
 
 module.exports = { profile, profileById };
