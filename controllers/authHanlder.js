@@ -8,7 +8,8 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const foundUser = await User.findOne({
       email: email,
-    });
+    })
+
 
     if (!foundUser) {
       return res
