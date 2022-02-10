@@ -8,8 +8,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const foundUser = await User.findOne({
       email: email,
-    })
-
+    });
 
     if (!foundUser) {
       return res
@@ -43,6 +42,11 @@ const login = async (req, res) => {
     res.status(200).json({
       success: true,
       isVerified: foundUser.isVerified,
+      user: {
+        email: foundUser.email,
+        username: foundUser.username,
+        pfp: foundUser.pfp,
+      },
       token,
     });
   } catch (e) {
