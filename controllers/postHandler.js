@@ -16,6 +16,7 @@ const getAllPost = async (req, res) => {
     //     },
     //   },
     // ]);
+    console.log("something happened");
     res.status(200).json({ success: true, posts });
   } catch (e) {
     console.log(e);
@@ -64,13 +65,24 @@ const createPost = async (req, res) => {
 
     res.status(200).json({ success: true, message: "Post created" });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(400).json({ sucess: false, message: e.message });
   }
 };
 
 const updatePost = async (req, res) => {
-  res.status(200).json({ success: true, updatedPost: "update" });
+  try {
+    const { id } = req.params;
+    const data = req.body;
+
+    const updatedPost = await Post.findByIdAndUpdate({ _id: id }, data);
+    console.log(updatedPost);
+
+    res.status(200).json({ success: true, updatedPost: "update" });
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({ sucess: false, message: e.message });
+  }
 };
 
 const deletePost = async (req, res) => {
