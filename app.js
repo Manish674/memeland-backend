@@ -5,8 +5,8 @@ const postRouter = require("./routes/postRoute");
 const userRouter = require("./routes/userRoute");
 
 const app = express();
+app.use(cors({ origin: "https://memeland.vercel.app/", credentials: true }));
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app/");
   next();
