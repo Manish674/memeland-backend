@@ -13,13 +13,13 @@ const login = async (req, res) => {
     if (!foundUser) {
       return res
         .status(200)
-        .json({ success: false, message: "User not found" });
+        .json({ success: false, error: { message: "User not found" } });
     }
 
     if (!foundUser.isVerified) {
       return res
         .status(200)
-        .json({ success: false, message: "Email is not verified" });
+        .json({ success: false, error: { message: "Email is not verified" } });
     }
 
     const result = await bcrypt.compare(password, foundUser.password);
@@ -27,7 +27,7 @@ const login = async (req, res) => {
     if (result !== true) {
       return res
         .status(200)
-        .json({ success: false, message: "invalid credentials" });
+        .json({ success: false, error: { message: "invalid credentials" } });
     }
 
     const token = jwt.sign(
