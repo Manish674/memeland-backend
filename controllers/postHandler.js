@@ -16,7 +16,6 @@ const getAllPost = async (req, res) => {
     //     },
     //   },
     // ]);
-    console.log("something happened");
     res.status(200).json({ success: true, posts });
   } catch (e) {
     console.log(e);
@@ -46,6 +45,7 @@ const createPost = async (req, res) => {
 
     if (!postAuthor)
       return res.status(200).json({ success: false, error: "Check user" });
+
 
     const createdPost = await Post.create({
       title,

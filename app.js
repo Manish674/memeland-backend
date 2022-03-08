@@ -5,13 +5,22 @@ const postRouter = require("./routes/postRoute");
 const userRouter = require("./routes/userRoute");
 
 const app = express();
-// app.use(cors({ origin: "https://memeland.vercel.app", credentials: true }));
-app.use(cors({ origin: "https://memeland.vercel.app", credentials: true }));
+
+//
+if (process.env.NODE_ENV !== "dev") {
+  console.log("not dev")
+  app.use(cors({ origin: "https://memeland.vercel.app", credentials: true }));
+  app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app");
+    next();
+  });
+} else if (process.env.NODE_ENV) {
+  console.log("dev")
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+}
+
 app.use(express.json());
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app");
-  next();
-});
+
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/user", userRouter);
