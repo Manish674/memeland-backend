@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 // process.env.URI
 
 const connect = async () => {
+  // const client = await ;
   const uri =
     process.env.NODE_ENV === "dev"
       ? "mongodb://127.0.0.1:27017/memeland"

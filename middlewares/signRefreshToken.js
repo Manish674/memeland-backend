@@ -6,7 +6,7 @@ const signRefreshToken = async (foundUser) => {
         email: foundUser.email,
       },
       process.env.REFRESH_JWT_SECRET,
-      { expiresIn: "300d" }
+      { expiresIn: "1y" }
     );
 
     return token;

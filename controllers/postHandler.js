@@ -28,15 +28,13 @@ const getOnePost = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  // verify if user is logged In or not
-  // getting it from checkAuth middleware
-
-  // console.log(req.file.path);
   try {
     const { user } = res.locals;
     const { title } = req.body;
     const filePath = `${req.file.path}`;
     const result = await cloudinary.uploader.upload(filePath);
+
+    console.log(result);
     const mediaUrl = result.secure_url;
 
     const postAuthor = await User.findOne({
@@ -45,7 +43,6 @@ const createPost = async (req, res) => {
 
     if (!postAuthor)
       return res.status(200).json({ success: false, error: "Check user" });
-
 
     const createdPost = await Post.create({
       title,
@@ -86,6 +83,9 @@ const updatePost = async (req, res) => {
 };
 
 const deletePost = async (req, res) => {
+  // delete the link from the db
+  // delete the img from the cloudinary
+  // remove it from the collection
   try {
     const { id } = req.params;
     await Post.findByIdAndDelete(id);
