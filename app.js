@@ -8,7 +8,6 @@ const app = express();
 
 //
 if (process.env.NODE_ENV !== "dev") {
-  console.log("not dev")
   app.use(cors({ origin: "https://memeland.vercel.app", credentials: true }));
   app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app");

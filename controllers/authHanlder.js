@@ -101,6 +101,7 @@ const verification = async (req, res) => {
 
 // Sending back user
 const validate = async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app");
   if (!res.locals.user) {
     return res
       .status(200)
