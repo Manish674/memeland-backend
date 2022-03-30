@@ -4,18 +4,7 @@ const cloudinary = require("../utils/cloudinaryConfig");
 
 const getAllPost = async (req, res) => {
   try {
-    // const posts = await Post.find();
     const posts = await Post.find().populate("postedBy");
-    // const posts = await Post.aggregate([
-    //   {
-    //     $lookup: {
-    //       from: "users",
-    //       localField: "username",
-    //       foreignField: "user_id",
-    //       as: "posts",
-    //     },
-    //   },
-    // ]);
     res.status(200).json({ success: true, posts });
   } catch (e) {
     console.log(e);

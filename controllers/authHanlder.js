@@ -1,14 +1,19 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../Entities/User");
+const {
+  createUser,
+  searchUser,
+  searchUserById,
+} = require("../services/authServices");
 const sendVerificationMail = require("../utils/sendVerificationMail");
+const { signJwt } = require("../utils/signJwt.js");
 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const foundUser = await User.findOne({
-      email: email,
-    });
+
+    const foundUser = await searchUser(email);
 
     if (!foundUser) {
       return res
@@ -30,14 +35,7 @@ const login = async (req, res) => {
         .json({ success: false, error: { message: "invalid credentials" } });
     }
 
-    const token = jwt.sign(
-      {
-        username: foundUser.username,
-        email: foundUser.email,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "11d" }
-    );
+    const token = signJwt(foundUser);
 
     res.status(200).json({
       success: true,
@@ -56,6 +54,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   const { username, password, email, dateOfBirth } = req.body;
+
   const foundUser = await User.findOne({
     email: email,
   });
@@ -66,7 +65,7 @@ const register = async (req, res) => {
       .json({ success: false, message: "User already exists" });
   }
 
-  const createdUser = await User.create({
+  const createdUser = await createUser({
     username,
     password,
     email,
@@ -85,7 +84,8 @@ const verification = async (req, res) => {
   try {
     const result = jwt.verify(token, process.env.EMAIL_SECRET);
 
-    let foundUser = await User.findById(result.user_id);
+    let foundUser = await searchUserById(result.user_id);
+
     if (!foundUser) {
       res.status(200).json({ success: false, error: "Verification failed" });
     }
