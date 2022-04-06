@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const checkAuth = require("../middlewares/checkAuth");
+const validateAccessToken = require("../middlewares/checkAuth");
 // const checkAuth = require("../middlewares/checkAuth");
 const { uploadImage } = require("../middlewares/upload");
 const {
@@ -15,8 +15,8 @@ const router = Router();
 // uploadImage,
 router
   .route("/")
-  .get(checkAuth, getAllPost)
-  .post([checkAuth, uploadImage], createPost);
+  .get(validateAccessToken, getAllPost)
+  .post([validateAccessToken, uploadImage], createPost);
 router.route("/:id").get(getOnePost).put(updatePost).delete(deletePost);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-const checkAuth = async (req, res, next) => {
+const validateAccessToken = async (req, res, next) => {
   try {
-    let token = req.headers?.authentication;
+    let token = req.headers?.authorization;
     token = token.split(" ")[1];
 
     if (!token) {
@@ -21,4 +21,4 @@ const checkAuth = async (req, res, next) => {
   }
 };
 
-module.exports = checkAuth;
+module.exports = validateAccessToken;

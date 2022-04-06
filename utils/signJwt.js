@@ -1,17 +1,33 @@
 const jwt = require("jsonwebtoken");
 
-function signJwt(user) {
+function signAccessToken(user) {
   const token = jwt.sign(
     {
       username: user.username,
       email: user.email,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "11d" }
+    { expiresIn: "1h" }
   );
   return token;
 }
 
+function signRefreshToken(user) {
+  const token = jwt.sign(
+    {
+      username: user.username,
+      email: user.email,
+    },
+    "@FASDT@aals%^&*$*&%^**%^&*NUlshit#%^Danigksn",
+    {
+      expiresIn: "90 days",
+    }
+  );
+
+  return token;
+}
+
 module.exports = {
-  signJwt,
+  signAccessToken,
+  signRefreshToken,
 };

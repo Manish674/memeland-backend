@@ -17,6 +17,7 @@ const sendEmail = (email, id) => {
     function (err, emailToken) {
       if (err)
         throw new Error("something went wrong with assinging jwt to email");
+
       const mailOptions = {
         from: "manish",
         to: email,
@@ -25,8 +26,8 @@ const sendEmail = (email, id) => {
       };
 
       transport.sendMail(mailOptions, function (err, res) {
-        if (!err) next();
-        next(err);
+        if (!err) console.log(res);
+        console.log(err);
       });
     }
   );

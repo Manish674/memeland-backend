@@ -1,4 +1,3 @@
-const checkAuth = require("../middlewares/checkAuth");
 const { Router } = require("express");
 const {
   login,
@@ -6,13 +5,14 @@ const {
   verification,
   validate,
 } = require("../controllers/authHanlder");
+const validateAccessToken = require("../middlewares/checkAuth");
 
 const router = Router();
 
 // /api/v1/auth
-router.route("/login").post(login);
+router.route("/login").post(validateAccessToken, login);
 router.route("/register").post(register);
 router.route("/verification/:token").get(verification);
-router.route("/validate").get(checkAuth, validate);
+// router.route("/validate").get(checkAuth, validate);
 
 module.exports = router;

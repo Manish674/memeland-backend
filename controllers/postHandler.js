@@ -1,10 +1,22 @@
 const Post = require("../Entities/Post");
 const User = require("../Entities/User");
-const cloudinary = require("../utils/cloudinaryConfig");
+const { uploadImgToCloudinary } = require("../services/postServices");
+const postServices = require("../services/postServices");
 
 const getAllPost = async (req, res) => {
   try {
+    // const posts = await Post.find();
     const posts = await Post.find().populate("postedBy");
+    // const posts = await Post.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: "users",
+    //       localField: "username",
+    //       foreignField: "user_id",
+    //       as: "posts",
+    //     },
+    //   },
+    // ]);
     res.status(200).json({ success: true, posts });
   } catch (e) {
     console.log(e);
@@ -18,25 +30,22 @@ const getOnePost = async (req, res) => {
 
 const createPost = async (req, res) => {
   try {
-    const { user } = res.locals;
+    const user = res.locals.user;
     const { title } = req.body;
-    const filePath = `${req.file.path}`;
-    const result = await cloudinary.uploader.upload(filePath);
+    const imgPath = `${req.file.path}`;
 
-    console.log(result);
-    const mediaUrl = result.secure_url;
+    const mediaUrl = await uploadImgToCloudinary(imgPath);
 
     const postAuthor = await User.findOne({
       username: user.username,
     });
 
     if (!postAuthor)
-      return res.status(200).json({ success: false, error: "Check user" });
+      return res.status(200).json({ success: false, error: "user not found" });
 
-    const createdPost = await Post.create({
+    const createdPost = await postServices.createPost({
       title,
       mediaUrl,
-      // TODO
       postedBy: postAuthor._id,
     });
 
@@ -52,7 +61,7 @@ const createPost = async (req, res) => {
     res.status(200).json({ success: true, message: "Post created" });
   } catch (e) {
     console.log(e);
-    res.status(400).json({ sucess: false, message: e.message });
+    res.status(400).json({ sucess: false, e });
   }
 };
 

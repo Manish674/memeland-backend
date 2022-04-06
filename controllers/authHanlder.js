@@ -7,10 +7,11 @@ const {
   searchUserById,
 } = require("../services/authServices");
 const sendVerificationMail = require("../utils/sendVerificationMail");
-const { signJwt } = require("../utils/signJwt.js");
+const { signAccessToken, signRefreshToken } = require("../utils/signJwt.js");
 
 const login = async (req, res) => {
   try {
+    console.log(res.locals);
     const { email, password } = req.body;
 
     const foundUser = await searchUser(email);
@@ -22,9 +23,10 @@ const login = async (req, res) => {
     }
 
     if (!foundUser.isVerified) {
-      return res
-        .status(200)
-        .json({ success: false, error: { message: "Email is not verified" } });
+      return res.status(200).json({
+        success: false,
+        error: { message: "Email is not verified" },
+      });
     }
 
     const result = await bcrypt.compare(password, foundUser.password);
@@ -35,8 +37,6 @@ const login = async (req, res) => {
         .json({ success: false, error: { message: "invalid credentials" } });
     }
 
-    const token = signJwt(foundUser);
-
     res.status(200).json({
       success: true,
       isVerified: foundUser.isVerified,
@@ -45,7 +45,8 @@ const login = async (req, res) => {
         username: foundUser.username,
         pfp: foundUser.pfp,
       },
-      token,
+      //TODO send it as cookie
+      // token,
     });
   } catch (e) {
     res.status(500).json({ success: false, error: { e, message: e.message } });
@@ -73,6 +74,12 @@ const register = async (req, res) => {
   });
 
   sendVerificationMail(createdUser.email, createdUser._id);
+
+  const accessToken = signAccessToken(createdUser);
+  const refreshToken = signRefreshToken(createdUser);
+
+  res.cookie("accessToken", accessToken);
+  res.cookie("refreshToken", refreshToken);
 
   res.status(200).json({ success: true, message: "User created successfully" });
 };
@@ -111,4 +118,9 @@ const validate = async (req, res) => {
   res.status(200).json({ success: true, user: res.locals.user });
 };
 
-module.exports = { login, register, verification, validate };
+module.exports = {
+  login,
+  register,
+  verification,
+  validate,
+};
