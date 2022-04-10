@@ -11,8 +11,8 @@ const { signAccessToken, signRefreshToken } = require("../utils/signJwt.js");
 
 const login = async (req, res) => {
   try {
-    console.log(res.locals);
     const { email, password } = req.body;
+    console.log(req.body);
 
     const foundUser = await searchUser(email);
 
@@ -25,10 +25,11 @@ const login = async (req, res) => {
     if (!foundUser.isVerified) {
       return res.status(200).json({
         success: false,
-        error: { message: "Email is not verified" },
+        error: { message: "Verify the goddamn email" },
       });
     }
 
+    console.log(password)
     const result = await bcrypt.compare(password, foundUser.password);
 
     if (result !== true) {
@@ -49,6 +50,7 @@ const login = async (req, res) => {
       // token,
     });
   } catch (e) {
+    console.log(e);
     res.status(500).json({ success: false, error: { e, message: e.message } });
   }
 };
@@ -78,10 +80,18 @@ const register = async (req, res) => {
   const accessToken = signAccessToken(createdUser);
   const refreshToken = signRefreshToken(createdUser);
 
-  res.cookie("accessToken", accessToken);
-  res.cookie("refreshToken", refreshToken);
+  // TODO figure out something
+  // res.cookie("accessToken", accessToken);
+  // res.cookie("refreshToken", refreshToken);
+  // res.header("Access-Control-Allow-Credentials", "true");
+  // res.set("accessToken", accessToken);
 
-  res.status(200).json({ success: true, message: "User created successfully" });
+  res.status(200).json({
+    success: true,
+    message: "User created successfully",
+    accessToken,
+    refreshToken,
+  });
 };
 
 // Email verification

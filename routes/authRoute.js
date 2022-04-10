@@ -11,7 +11,7 @@ const refreshTokenHandler = require("../controllers/refreshTokensHandler.js");
 const router = Router();
 
 // /api/v1/auth
-router.route("/login").post(validateAccessToken, login);
+router.route("/login").post(login);
 router.route("/register").post(register);
 router.route("/verification/:token").get(verification);
 router.route("/refresh-access-token").get(refreshTokenHandler);
