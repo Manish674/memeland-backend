@@ -15,6 +15,6 @@ router.route("/login").post(login);
 router.route("/register").post(register);
 router.route("/verification/:token").get(verification);
 router.route("/refresh-access-token").get(refreshTokenHandler);
-// router.route("/validate").get(checkAuth, validate);
+router.route("/validate").get(checkAuth, validate);
 
 module.exports = router;
