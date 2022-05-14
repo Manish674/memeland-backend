@@ -7,6 +7,7 @@ const {
 } = require("../controllers/authHanlder");
 const validateAccessToken = require("../middlewares/checkAuth");
 const refreshTokenHandler = require("../controllers/refreshTokensHandler.js");
+const checkAuth = require("../middlewares/checkAuth");
 
 const router = Router();
 
@@ -14,7 +15,7 @@ const router = Router();
 router.route("/login").post(login);
 router.route("/register").post(register);
 router.route("/verification/:token").get(verification);
-router.route("/refresh-access-token").get(refreshTokenHandler);
+router.route("/refresh-access-token").post(refreshTokenHandler);
 router.route("/validate").get(checkAuth, validate);
 
 module.exports = router;

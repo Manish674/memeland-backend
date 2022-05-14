@@ -4,7 +4,7 @@ const { signAccessToken } = require("../utils/signJwt");
 
 const refreshAccessToken = (req, res) => {
   try {
-    let refreshToken = req.headers?.authorization.split(" ")[1];
+    let refreshToken = req.headers?.authentication.split(" ")[1];
 
     const result = jwt.verify(
       refreshToken,
@@ -18,9 +18,12 @@ const refreshAccessToken = (req, res) => {
     res.clearCookie("accessToken");
 
     const accessToken = signAccessToken(foundUser);
-    res.cookie("accessToken", accessToken);
 
-    res.status(200).json({ success: true, data: "assigned new cookie" });
+    res.status(200).json({
+      success: true,
+      message: "assigned new cookie",
+        accessToken,
+    });
   } catch (e) {
     console.log(e);
     res.status(500).json({ success: false, e });

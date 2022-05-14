@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const validateAccessToken = async (req, res, next) => {
   try {
-    let token = req.headers?.authorization;
+    let token = req.headers?.authentication;
     token = token.split(" ")[1];
 
     if (!token) {

@@ -29,7 +29,7 @@ const login = async (req, res) => {
       });
     }
 
-    console.log(password)
+    console.log(password);
     const result = await bcrypt.compare(password, foundUser.password);
 
     if (result !== true) {
@@ -58,7 +58,7 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   const { username, password, email, dateOfBirth } = req.body;
 
-  console.log("request sent")
+  console.log("request sent");
   const foundUser = await User.findOne({
     email: email,
   });
@@ -119,7 +119,10 @@ const verification = async (req, res) => {
 
 // Sending back user
 const validate = async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app");
+  if (process.env.NODE_ENV !== "dev") {
+    res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app");
+  }
+
   if (!res.locals.user) {
     return res
       .status(200)
