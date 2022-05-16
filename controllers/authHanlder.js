@@ -12,7 +12,6 @@ const { signAccessToken, signRefreshToken } = require("../utils/signJwt.js");
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
 
     const foundUser = await searchUser(email);
 
@@ -58,7 +57,6 @@ const login = async (req, res) => {
 const register = async (req, res) => {
   const { username, password, email, dateOfBirth } = req.body;
 
-  console.log("request sent");
   const foundUser = await User.findOne({
     email: email,
   });
@@ -76,6 +74,7 @@ const register = async (req, res) => {
     dateOfBirth,
   });
 
+  console.log(createdUser);
   sendVerificationMail(createdUser.email, createdUser._id);
 
   const accessToken = signAccessToken(createdUser);

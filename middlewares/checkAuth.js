@@ -14,6 +14,7 @@ const validateAccessToken = async (req, res, next) => {
     }
 
     const result = jwt.verify(token, process.env.JWT_SECRET);
+
     res.locals.user = result;
     next();
   } catch (e) {

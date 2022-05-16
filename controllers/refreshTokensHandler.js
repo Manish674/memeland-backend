@@ -14,15 +14,15 @@ const refreshAccessToken = (req, res) => {
     const foundUser = User.find({
       email: result.email,
     });
+    console.log(foundUser);
 
     res.clearCookie("accessToken");
-
     const accessToken = signAccessToken(foundUser);
 
     res.status(200).json({
       success: true,
       message: "assigned new cookie",
-        accessToken,
+      accessToken,
     });
   } catch (e) {
     console.log(e);
