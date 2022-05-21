@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 function signAccessToken(user) {
+  console.log("user received by access token", user);
   const token = jwt.sign(
     {
       username: user.username,
@@ -13,6 +14,7 @@ function signAccessToken(user) {
 }
 
 function signRefreshToken(user) {
+  console.log("user received by refresh token", user);
   const token = jwt.sign(
     {
       username: user.username,

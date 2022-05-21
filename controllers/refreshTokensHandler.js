@@ -2,7 +2,7 @@ const User = require("../Entities/User");
 const jwt = require("jsonwebtoken");
 const { signAccessToken } = require("../utils/signJwt");
 
-const refreshAccessToken = (req, res) => {
+const refreshAccessToken = async (req, res) => {
   try {
     let refreshToken = req.headers?.authentication.split(" ")[1];
 
@@ -11,10 +11,9 @@ const refreshAccessToken = (req, res) => {
       "@FASDT@aals%^&*$*&%^**%^&*NUlshit#%^Danigksn"
     );
 
-    const foundUser = User.find({
+    const foundUser = await User.find({
       email: result.email,
     });
-    console.log(foundUser);
 
     res.clearCookie("accessToken");
     const accessToken = signAccessToken(foundUser);

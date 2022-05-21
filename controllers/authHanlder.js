@@ -28,7 +28,6 @@ const login = async (req, res) => {
       });
     }
 
-    console.log(password);
     const result = await bcrypt.compare(password, foundUser.password);
 
     if (result !== true) {
@@ -50,7 +49,10 @@ const login = async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ success: false, error: { e, message: e.message } });
+    res.status(500).json({
+      success: false,
+      error: { e, message: e.message },
+    });
   }
 };
 
@@ -74,11 +76,10 @@ const register = async (req, res) => {
     dateOfBirth,
   });
 
-  console.log(createdUser);
   sendVerificationMail(createdUser.email, createdUser._id);
 
-  const accessToken = signAccessToken(createdUser);
-  const refreshToken = signRefreshToken(createdUser);
+  const accessToken = signAccessToken({ email, username });
+  const refreshToken = signRefreshToken({ email, username });
 
   // TODO figure out something
   // res.cookie("accessToken", accessToken);
@@ -118,6 +119,7 @@ const verification = async (req, res) => {
 
 // Sending back user
 const validate = async (req, res) => {
+  console.log("it hit hard");
   if (process.env.NODE_ENV !== "dev") {
     res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app");
   }
