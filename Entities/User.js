@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: { unique: true, type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true, minlength: 8 },
+  password: { type: String, required: true, minlength: 8, select: false },
   //TODO CHANGE it to false
   isVerified: { type: Boolean, default: false },
   posts: [
