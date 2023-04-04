@@ -1,14 +1,27 @@
+Ref --> https://youtu.be/CnailTcJV_U
+
 Entities
-  L User 
+  L User
   L Post
 
-use cases
-  L CRUD post
-  L CRUD User
+Use Cases 
+  (interacting with entities)
 
-interface adapters
-  L Controllers 
-    L convert data to most convenient format for use cases
+adapters
+  (isolate use cases from framework)
 
 framework
+  (self explainatory)
 
+-----------------xxxxxxxxx---------------------
+
+post -> PostAdapter -> Create Post 
+
+const UserAdapter = () => {
+  return () => {
+    UpdateUser() 
+    Delete() 
+    Read() 
+
+  }
+}

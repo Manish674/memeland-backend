@@ -7,9 +7,29 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
+// it translates the req object
+// const expressReqAdapter = (req) => {
+//   return {
+//     body: req.body,
+//     params: req.params,
+//   }
+// } 
+//
+const authInterface = () => {
+  return {
+    login: login(username, password),
+    register: login(username, password, email, dateOfBirth),
+  }
+}
+
+
+const loginUser = () => {
+  const { login } = authInterface();
+}
+
 if (process.env.NODE_ENV !== "dev") {
   app.use(cors({ origin: "https://memeland.vercel.app", credentials: true }));
-  app.use(function (req, res, next) {
+  app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "https://memeland.vercel.app");
     next();
   });
@@ -22,6 +42,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 
+app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/user", userRouter);
