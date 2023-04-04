@@ -7,7 +7,6 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 
-//
 if (process.env.NODE_ENV !== "dev") {
   app.use(cors({ origin: "https://memeland.vercel.app", credentials: true }));
   app.use(function (req, res, next) {

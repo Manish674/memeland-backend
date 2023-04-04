@@ -1,0 +1,14 @@
+Entities
+  L User 
+  L Post
+
+use cases
+  L CRUD post
+  L CRUD User
+
+interface adapters
+  L Controllers 
+    L convert data to most convenient format for use cases
+
+framework
+
