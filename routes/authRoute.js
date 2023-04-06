@@ -9,8 +9,8 @@ const { Router } = require("express");
 // const refreshTokenHandler = require("../controllers/refreshTokensHandler.js");
 // const checkAuth = require("../middlewares/checkAuth");
 
-const authAdapter = require('../src/adapters/authAdapter')
-const { login } = authAdapter;
+const expressCallback = require('../utils/expressCallback');
+const { loginController } = require("../src/controller/");
 
 const router = Router();
 
@@ -22,8 +22,8 @@ const router = Router();
 // router.route("/validate").get(checkAuth, validate);
 
 module.exports = router;
+router.route('/login').post(expressCallback(loginController))
+// router.route('/login').post(expressCallback)
 
-//router should know nothing about the login function
-//nor should login function know anything about req and res object
-//adapter(req, res) -> login({req.body.email, req.body.password})
-router.route('/login').post()
+//framework -> controller -> use cases -> Entities
+

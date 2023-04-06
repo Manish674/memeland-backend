@@ -1,4 +1,4 @@
-const User = require("../Entities/User");
+// const User = require("../Entities/User");
 
 const profile = async (req, res) => {
   try {

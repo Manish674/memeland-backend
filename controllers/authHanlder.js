@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../Entities/User");
+// const User = require("../Entities/User");
 const {
   createUser,
   searchUser,

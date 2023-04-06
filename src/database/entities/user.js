@@ -1,4 +1,3 @@
-// const { Schema } = require('mongoose')
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -22,7 +21,7 @@ const userSchema = new Schema({
 });
 
 // something going wrong with async hashing
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function(next) {
   if (!this.isModified("password")) next();
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(this.password, salt);
