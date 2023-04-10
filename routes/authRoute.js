@@ -10,7 +10,9 @@ const { Router } = require("express");
 // const checkAuth = require("../middlewares/checkAuth");
 
 const expressCallback = require('../utils/expressCallback');
+
 const { loginController } = require("../src/controller/");
+const { signupController } = require('../src/controller/')
 
 const router = Router();
 
@@ -23,6 +25,7 @@ const router = Router();
 
 module.exports = router;
 router.route('/login').post(expressCallback(loginController))
+router.route('/register').post(expressCallback(signupController))
 // router.route('/login').post(expressCallback)
 
 //framework -> controller -> use cases -> Entities
