@@ -1,6 +1,6 @@
 const accessToken = (token) => {
   return async ({ user, expiresIn }) => {
-    const token = token.sign(
+    const tk = token.sign(
       {
         username: user.username,
         email: user.email,
@@ -9,8 +9,9 @@ const accessToken = (token) => {
       { expiresIn }
     );
 
-    return token;
+    return tk;
   }
 }
 
-export default accessToken;
+module.exports = accessToken;
+
