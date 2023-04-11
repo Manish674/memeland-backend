@@ -1,23 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const authRouter = require("./routes/authRoute");
-// const postRouter = require("./routes/postRoute");
+const postRouter = require("./routes/postRoute");
 const userRouter = require("./routes/userRoute");
 const cookieParser = require("cookie-parser");
 
 const app = express();
-
-const authInterface = () => {
-  return {
-    login: login(username, password),
-    register: login(username, password, email, dateOfBirth),
-  }
-}
-
-
-const loginUser = () => {
-  const { login } = authInterface();
-}
 
 if (process.env.NODE_ENV !== "dev") {
   app.use(cors({ origin: "https://memeland.vercel.app", credentials: true }));
@@ -35,8 +23,8 @@ app.use(cookieParser());
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/posts", postRouter);
 // app.use("/api/v1/auth", authRouter);
-// app.use("/api/v1/posts", postRouter);
 app.use("*", (req, res) => {
   res.status(404).json({
     error: "Page not found",
