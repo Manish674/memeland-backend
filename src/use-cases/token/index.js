@@ -1,4 +1,9 @@
-const assignAccessToken = require('./assignAccessToken');
+const makeAssignToken = require('./assignAccessToken');
+const makeVerifyToken = require('./verifyToken')
+const jwt = require("jsonwebtoken")
 
-module.exports = assignAccessToken;
+const assignToken = makeAssignToken(jwt)
+const verifyToken = makeVerifyToken(jwt)
 
+
+module.exports = { assignToken, verifyToken };

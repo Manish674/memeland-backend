@@ -11,8 +11,8 @@ const { Router } = require("express");
 
 const expressCallback = require('../utils/expressCallback');
 
-const { loginController } = require("../src/controller/");
-const { signupController } = require('../src/controller/')
+const { loginController } = require("../src/controller/auth");
+const { signupController } = require('../src/controller/auth')
 
 const router = Router();
 
