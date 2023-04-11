@@ -25,7 +25,6 @@ const validateAccessToken = async (req, res, next) => {
     res.locals.user = { email, username };
     next();
   } catch (e) {
-    console.log("something went wrong here", e);
     res.status(200).json({ success: false, error: e });
   }
 };

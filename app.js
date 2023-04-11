@@ -2,19 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const authRouter = require("./routes/authRoute");
 // const postRouter = require("./routes/postRoute");
-// const userRouter = require("./routes/userRoute");
+const userRouter = require("./routes/userRoute");
 const cookieParser = require("cookie-parser");
 
 const app = express();
 
-// it translates the req object
-// const expressReqAdapter = (req) => {
-//   return {
-//     body: req.body,
-//     params: req.params,
-//   }
-// } 
-//
 const authInterface = () => {
   return {
     login: login(username, password),
@@ -41,10 +33,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 
+app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);
 // app.use("/api/v1/auth", authRouter);
 // app.use("/api/v1/posts", postRouter);
-// app.use("/api/v1/user", userRouter);
 app.use("*", (req, res) => {
   res.status(404).json({
     error: "Page not found",
