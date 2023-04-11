@@ -2,7 +2,7 @@ const makeLoginController = require("./authController");
 const makeSignupController = require("./signupController");
 const makeEmailVerificationController = require("./emailVerificationController");
 
-const { findUser, createUser } = require('../use-cases/');
+const { findUser, createUser } = require('../../use-cases/users/');
 const { assignToken, verifyToken } = require("../../use-cases/token/");
 
 //TODO write diff use_case for bcrypt (compare, encrypt)
