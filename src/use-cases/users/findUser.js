@@ -1,7 +1,11 @@
 const findUser = ({ userDb }) => {
-  return async (userInfo) => {
-    return await userDb.find(userInfo).exec();
-  }
-}
+  return async (userInfo, args) => {
+    if (args.showPassword) {
+      return await userDb.find(userInfo).select("+password").exec();
+    }
 
-module.exports = findUser; 
+    return await userDb.find(userInfo).exec();
+  };
+};
+
+module.exports = findUser;
