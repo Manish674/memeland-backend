@@ -29,6 +29,7 @@ const getOnePost = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
+
   try {
     const user = res.locals.user;
     const { title } = req.body;

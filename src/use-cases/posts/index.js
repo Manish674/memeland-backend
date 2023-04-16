@@ -3,6 +3,7 @@ const cloudinary = require('../../../utils/cloudinaryConfig');
 
 const makeFindPost = require("./findPost");
 const makeImgUpload = require("./imgUpload");
+
 const findPost = makeFindPost(postDb);
 const imgUpload = makeImgUpload(cloudinary);
 

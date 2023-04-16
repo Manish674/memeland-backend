@@ -34,7 +34,6 @@ const imgUpload = (cloudinary) => {
         },
       });
       readStream.pipe(writeStream);
-      console.log("read stream", readStream.pipe(writeStream));
     });
 
     // return readStream.pipe(writeStream);
