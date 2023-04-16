@@ -7,8 +7,8 @@ const createPost = ({ imgUpload, findAndUpdateUser, savePost }) => {
       // const imgPath = `${httpReq?.file?.path}`;
       const buffer = httpReq.file?.buffer;
 
-      // const uploadedImage = await imgUpload(buffer);
-      // const image = uploadedImage.secure_url;
+      const uploadedImage = await imgUpload(buffer);
+      const image = uploadedImage.secure_url;
 
       await findAndUpdateUser(
         { username: user.username },
@@ -47,7 +47,7 @@ const createPost = ({ imgUpload, findAndUpdateUser, savePost }) => {
         success: true,
         statusCode: 200,
         body: {
-          // image,
+          image,
         },
       };
     } catch (e) {
