@@ -1,12 +1,15 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const makeFindUser = require('./findUser');
-const makeCreateUser = require('./createUser');
-const makeFindUserbyId = require('./findUserbyId');
-const { userDb } = require('../../database/entities/');
+const makeFindUser = require("./findUser");
+const makeCreateUser = require("./createUser");
+const makeFindUserbyId = require("./findUserbyId");
+const makeFindAndUpdate = require("./findAndUpdate");
 
-const findUser = makeFindUser({ userDb })
-const createUser = makeCreateUser({ userDb })
-const findUserById = makeFindUserbyId({ userDb, mongoose })
+const { userDb } = require("../../database/entities/");
 
-module.exports = { findUser, createUser, findUserById }
+const findUser = makeFindUser({ userDb });
+const createUser = makeCreateUser({ userDb });
+const findUserById = makeFindUserbyId({ userDb });
+const findAndUpdateUser = makeFindAndUpdate({ userDb });
+
+module.exports = { findUser, createUser, findUserById, findAndUpdateUser };
