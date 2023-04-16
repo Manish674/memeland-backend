@@ -1,14 +1,23 @@
-const createPost = ({ imgUpload }) => {
+const createPost = ({ imgUpload, findAndUpdateUser, savePost }) => {
   return async (httpReq) => {
     try {
+      const { user } = httpReq.locals;
       // const user = httpReq.locals.user;
       // const { title } = httpReq.body;
       // const imgPath = `${httpReq?.file?.path}`;
       const buffer = httpReq.file?.buffer;
 
-      const uploadedImage = await imgUpload(buffer);
-      const image = uploadedImage.secure_url;
-      // const mediaUrl = await uploadImgToCloudinary(imgPath);
+      // const uploadedImage = await imgUpload(buffer);
+      // const image = uploadedImage.secure_url;
+
+      await findAndUpdateUser(
+        { username: user.username },
+        {
+          $push: {
+            posts: ["hellow there"],
+          },
+        }
+      );
 
       // const postAuthor = await User.findOne({
       //   username: user.username,
@@ -38,11 +47,10 @@ const createPost = ({ imgUpload }) => {
         success: true,
         statusCode: 200,
         body: {
-          imr_url: image,
+          // image,
         },
       };
     } catch (e) {
-      console.log("here controller ?");
       return {
         success: false,
         statusCode: 500,
