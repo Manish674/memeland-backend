@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt')
 const encryptor = bcrypt;
 
 //TODO controller --> usecase { pass use case in the controller}
-const loginController = makeLoginController({ findUser, encryptor })
+const loginController = makeLoginController({ findUser, encryptor, assignToken })
 const signupController = makeSignupController({ findUser, createUser, assignToken })
 const emailVerificationController = makeEmailVerificationController({ findUser, verifyToken })
 

@@ -1,6 +1,6 @@
 const findUser = ({ userDb }) => {
   return async (userInfo, args) => {
-    if (args.showPassword) {
+    if (args?.showPassword) {
       return await userDb.find(userInfo).select("+password").exec();
     }
 
