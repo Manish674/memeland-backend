@@ -8,7 +8,7 @@ const handleExpressCallback = (controller) => {
       params: req.params,
       body: req.body,
       file: req?.file,
-      locals: {},
+      locals: res.locals,
     };
 
     controller(httpReq).then((response) => {

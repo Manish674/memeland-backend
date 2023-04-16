@@ -2,7 +2,6 @@ const checkAuthentication = ({ findUser, verifyToken }) => {
   return async (httpReq) => {
     try {
       let token = httpReq.headers.authentication;
-      console.log(token);
 
       if (!token) {
         return {
@@ -24,9 +23,8 @@ const checkAuthentication = ({ findUser, verifyToken }) => {
           errorMessage: "invalid token",
         };
 
-      const { email, username } = foundUser;
-      httpReq.locals.user = { email, username };
-      return { success: true } 
+      const { email, username } = foundUser[0];
+      return { success: true, data: { user: { email, username } } };
     } catch (e) {
       return { success: false, statusCode: 500, errorMessage: e.message };
     }
