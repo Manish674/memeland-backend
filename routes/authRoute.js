@@ -1,16 +1,5 @@
 const { Router } = require("express");
-// const {
-// login,
-// register,
-// verification,
-// validate,
-// } = require("../controllers/authHanlder");
-// const validateAccessToken = require("../middlewares/checkAuth");
-// const refreshTokenHandler = require("../controllers/refreshTokensHandler.js");
-// const checkAuth = require("../middlewares/checkAuth");
-
 const expressCallback = require('../utils/expressCallback');
-
 const { signupController, loginController, emailVerificationController } = require("../src/controller/auth");
 
 const router = Router();
