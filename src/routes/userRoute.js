@@ -1,9 +1,9 @@
 const { Router } = require("express");
 
-const { usersController, userController } = require("../src/controller/user/");
+const { usersController, userController } = require("../controller/user/");
 const expressCallback = require("../utils/expressCallback");
 const expressMiddlewareCallback = require("../utils/expressMiddlwareCallback");
-const { checkAuth } = require("../src/middleware/");
+const { checkAuth } = require("../middleware/");
 // const { checkAuth }  = require("../middlewares/");
 
 const router = Router();

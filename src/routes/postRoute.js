@@ -8,9 +8,9 @@ const {
   postsController,
   createPost,
   removePost,
-} = require("../src/controller/post");
+} = require("../controller/post");
 
-const { checkAuth } = require("../src/middleware/");
+const { checkAuth } = require("../middleware/");
 
 const router = Router();
 // /api/v1/posts

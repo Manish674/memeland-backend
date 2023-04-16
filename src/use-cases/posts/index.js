@@ -1,5 +1,5 @@
 const { postDb } = require("../../database/entities");
-const cloudinary = require("../../../utils/cloudinaryConfig");
+const cloudinary = require("../../utils/cloudinaryConfig");
 
 const makeFindPost = require("./findPost");
 const makeImgUpload = require("./imgUpload");
