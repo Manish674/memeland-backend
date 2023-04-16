@@ -1,4 +1,4 @@
-const makeSignupController = ({ findUser, createUser, assignToken }) => {
+const makeSignupController = ({ findUser, createUser }) => {
   return async (httpReq) => {
     try {
 
