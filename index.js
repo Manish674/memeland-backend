@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const server = require("./app");
-const connect = require("./utils/dbConnect");
+const connect = require("./src/database/dbConnect");
 
 connect();
 

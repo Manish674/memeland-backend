@@ -1,0 +1,27 @@
+Ref --> https://youtu.be/CnailTcJV_U
+
+Entities
+  L User
+  L Post
+
+Use Cases 
+  (interacting with entities)
+
+adapters
+  (isolate use cases from framework)
+
+framework
+  (self explainatory)
+
+-----------------xxxxxxxxx---------------------
+
+post -> PostAdapter -> Create Post 
+
+const UserAdapter = () => {
+  return () => {
+    UpdateUser() 
+    Delete() 
+    Read() 
+
+  }
+}
