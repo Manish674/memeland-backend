@@ -4,7 +4,11 @@ const { Router } = require("express");
 const expressCallback = require("../utils/expressCallback");
 const handleMiddlwareCallback = require("../utils/expressMiddlwareCallback");
 
-const { postsController, createPost } = require("../src/controller/post");
+const {
+  postsController,
+  createPost,
+  removePost,
+} = require("../src/controller/post");
 
 const { checkAuth } = require("../src/middleware/");
 
@@ -21,6 +25,8 @@ router
     ],
     expressCallback(createPost)
   );
-// router.route("/:id").get(getOnePost).put(updatePost).delete(deletePost);
+router
+  .route("/:id")
+  .delete(handleMiddlwareCallback(checkAuth), expressCallback(removePost));
 
 module.exports = router;
