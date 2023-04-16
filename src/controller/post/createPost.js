@@ -1,53 +1,43 @@
-const createPost = ({ imgUpload, findAndUpdateUser, savePost }) => {
+const createPost = ({ imgUpload, findUser, findAndUpdateUser, savePost }) => {
   return async (httpReq) => {
     try {
       const { user } = httpReq.locals;
-      // const user = httpReq.locals.user;
-      // const { title } = httpReq.body;
-      // const imgPath = `${httpReq?.file?.path}`;
+      const { title } = httpReq.body;
       const buffer = httpReq.file?.buffer;
 
       const uploadedImage = await imgUpload(buffer);
-      const image = uploadedImage.secure_url;
+      const mediaUrl = uploadedImage.secure_url;
+
+      const author = await findUser({ username: user.username });
+
+      if (!author)
+        return {
+          success: false,
+          statusCode: 200,
+          errorMessage: "creator of post not found",
+        };
+
+      const createdPost = await savePost({
+        title,
+        mediaUrl,
+        postedBy: author[0]._id,
+        desc: httpReq.body?.desc,
+      });
 
       await findAndUpdateUser(
         { username: user.username },
         {
           $push: {
-            posts: ["hellow there"],
+            posts: [createdPost._id],
           },
         }
       );
-
-      // const postAuthor = await User.findOne({
-      //   username: user.username,
-      // });
-
-      // if (!postAuthor)
-      //   return res
-      //     .status(200)
-      //     .json({ success: false, error: "user not found" });
-
-      // const createdPost = await postServices.createPost({
-      //   title,
-      //   mediaUrl,
-      //   postedBy: postAuthor._id,
-      // });
-
-      // await User.findOneAndUpdate(
-      //   { username: user.username },
-      //   {
-      //     $push: {
-      //       posts: [createdPost._id],
-      //     },
-      //   }
-      // );
 
       return {
         success: true,
         statusCode: 200,
         body: {
-          image,
+          post: createdPost,
         },
       };
     } catch (e) {
