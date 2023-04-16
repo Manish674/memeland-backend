@@ -1,4 +1,4 @@
-const accessToken = (token) => {
+const assignToken = (token) => {
   return async ({ user, expiresIn }) => {
     const tk = token.sign(
       {
@@ -13,5 +13,5 @@ const accessToken = (token) => {
   }
 }
 
-module.exports = accessToken;
+module.exports = assignToken;
 
