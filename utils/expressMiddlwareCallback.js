@@ -12,7 +12,7 @@ const handleMiddlewareCallback = (middlware) => {
 
     middlware(httpReq).then((response) => {
       if (response.success) {
-        res.locals.users = response.data.user;
+        res.locals.user = response.data.user;
         next();
       } else {
         res.status(response.statusCode);
